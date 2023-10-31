@@ -69,11 +69,18 @@ function App() {
             doneData.forEach((element) => {
               if (element.title === titleContent) {
                 a = false;
-                alert("이미 같은 제목이 있습니다. 다른 제목을 입력해주세요");
+                console.log("alert");
+                alert("이미 같은 제목이 있습니다.");
                 removeButtonHandler();
               }
             });
-            if (a === true) {
+
+            let b = [...titleContent].some((a) => a !== "");
+            if (!b) {
+              return alert("입력된 값이 없습니다.");
+            }
+
+            if (a === true && b === true) {
               setDonedata([...doneData, newContent]);
               removeButtonHandler();
             }
