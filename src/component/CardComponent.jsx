@@ -17,16 +17,22 @@ function CardComponent({
     setDonedata(deleteItem);
   };
 
-  const toWork = () => {
-    let changeDone = [...doneData];
-    changeDone[i].isDone = false;
-    setDonedata(changeDone);
+  //아이디 값이 클릭한 아이디랑 동일한 거를 찾으면 되는거네
+  const toWork = (id) => {
+    let fineIndex = doneData.findIndex((item) => {
+      return item.id === id;
+    });
+    doneData[fineIndex].isDone = false;
+    setDonedata([...doneData]);
   };
 
-  const toDone = () => {
-    let changeDone = [...doneData];
-    changeDone[i].isDone = true;
-    setDonedata(changeDone);
+  const toDone = (id) => {
+    let findIndex = doneData.findIndex((item) => {
+      return item.id === id;
+    });
+
+    doneData[findIndex].isDone = true;
+    setDonedata([...doneData]);
   };
   return (
     <Col>
@@ -48,13 +54,13 @@ function CardComponent({
             >
               삭제하기
             </Button>
-
+            {id}
             {isDone === true ? (
-              <Button variant="info" size="sm" onClick={toWork}>
+              <Button variant="info" size="sm" onClick={() => toWork(id)}>
                 취소
               </Button>
             ) : (
-              <Button variant="info" size="sm" onClick={toDone}>
+              <Button variant="info" size="sm" onClick={() => toDone(id)}>
                 완료
               </Button>
             )}

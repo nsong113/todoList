@@ -91,8 +91,12 @@ function App() {
           <Container>
             <Row>
               <h4>Working..🔥</h4>
+              {/* {console.log("working" + workingFilter)} */}
+
               {/* done이 false인 것만 필터 */}
               {workingFilter.map((item, i) => {
+                // console.log(item);
+                // console.log(i);
                 return (
                   <CardComponent
                     key={item.id}
@@ -112,8 +116,10 @@ function App() {
             <Row>
               <h4>Done..!🌟</h4>
               {/* done은 done이 true인 것만 필터 */}
+              {/* {console.log("working" + doneFilter)} */}
               {doneFilter.map((item, i) => {
-                console.log(item);
+                // console.log(item);
+                // console.log(i);
                 return (
                   <CardComponent
                     key={item.id}
