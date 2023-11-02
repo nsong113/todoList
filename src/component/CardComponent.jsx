@@ -6,34 +6,10 @@ function CardComponent({
   title,
   content,
   isDone,
-  i,
-  setDonedata,
-  doneData,
+  deleteHandler,
+  toWork,
+  toDone,
 }) {
-  const deleteHandler = (id) => {
-    const deleteItem = doneData.filter((a) => {
-      return a.id !== id;
-    });
-    setDonedata(deleteItem);
-  };
-
-  //아이디 값이 클릭한 아이디랑 동일한 거를 찾으면 되는거네
-  const toWork = (id) => {
-    let fineIndex = doneData.findIndex((item) => {
-      return item.id === id;
-    });
-    doneData[fineIndex].isDone = false;
-    setDonedata([...doneData]);
-  };
-
-  const toDone = (id) => {
-    let findIndex = doneData.findIndex((item) => {
-      return item.id === id;
-    });
-
-    doneData[findIndex].isDone = true;
-    setDonedata([...doneData]);
-  };
   return (
     <Col>
       <Card

@@ -11,29 +11,58 @@ function App() {
   let [titleContent, setTitleContent] = useState("");
   let [detailContent, setDetailContent] = useState("");
 
+  ////////////////////////////////
   let workingFilter = doneData.filter((value, i) => {
     return doneData[i].isDone === false;
   });
   let doneFilter = doneData.filter((value, i) => {
     return doneData[i].isDone === true;
   });
+  ////////////////////////////////
 
-  let newContent = {
-    id: doneData.length + 1,
-    title: titleContent,
-    content: detailContent,
-    isDone: false,
+  const deleteHandler = (id) => {
+    const deleteItem = doneData.filter((a) => {
+      return a.id !== id;
+    });
+    setDonedata(deleteItem);
   };
-  let removeButtonHandler = () => {
-    setTitleContent("");
-    setDetailContent("");
+
+  const onClickAddBtn = () => {
+    if (titleContent && detailContent) {
+      let newContent = {
+        id: doneData.length + 1,
+        title: titleContent,
+        content: detailContent,
+        isDone: false,
+      };
+      setDonedata([...doneData, newContent]);
+      setTitleContent("");
+      setDetailContent("");
+    }
   };
+
+  ////////////////////////////////
+  const toWork = (id) => {
+    let fineIndex = doneData.findIndex((item) => {
+      return item.id === id;
+    });
+    doneData[fineIndex].isDone = false;
+    setDonedata([...doneData]);
+  };
+
+  const toDone = (id) => {
+    let findIndex = doneData.findIndex((item) => {
+      return item.id === id;
+    });
+
+    doneData[findIndex].isDone = true;
+    setDonedata([...doneData]);
+  };
+  ////////////////////////////////
 
   return (
     <div className="todoPageContainer ">
-      {/* header */}
       <Header></Header>
-      {/* input text */}
       <form className="formFlex">
         <div className="inputTodoBoxStyle">
           <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
@@ -62,30 +91,7 @@ function App() {
         </div>
 
         {/* input Button */}
-        <div
-          className="buttonContainer"
-          onClick={() => {
-            let a = true;
-            doneData.forEach((element) => {
-              if (element.title === titleContent) {
-                a = false;
-                console.log("alert");
-                alert("이미 같은 제목이 있습니다.");
-                removeButtonHandler();
-              }
-            });
-
-            let b = [...titleContent].some((a) => a !== "");
-            if (!b) {
-              return alert("입력된 값이 없습니다.");
-            }
-
-            if (a === true && b === true) {
-              setDonedata([...doneData, newContent]);
-              removeButtonHandler();
-            }
-          }}
-        >
+        <div className="buttonContainer" onClick={onClickAddBtn}>
           <div className="buttonTextDiv">계획 추가하기</div>
           <div className="catButtonDiv"></div>
         </div>
@@ -102,8 +108,6 @@ function App() {
 
               {/* done이 false인 것만 필터 */}
               {workingFilter.map((item, i) => {
-                // console.log(item);
-                // console.log(i);
                 return (
                   <CardComponent
                     key={item.id}
@@ -111,9 +115,9 @@ function App() {
                     title={item.title}
                     content={item.content}
                     isDone={item.isDone}
-                    i={i}
-                    setDonedata={setDonedata}
-                    doneData={doneData}
+                    deleteHandler={deleteHandler}
+                    toWork={toWork}
+                    toDone={toDone}
                   ></CardComponent>
                 );
               })}
@@ -125,8 +129,6 @@ function App() {
               {/* done은 done이 true인 것만 필터 */}
               {/* {console.log("working" + doneFilter)} */}
               {doneFilter.map((item, i) => {
-                // console.log(item);
-                // console.log(i);
                 return (
                   <CardComponent
                     key={item.id}
@@ -134,9 +136,9 @@ function App() {
                     title={item.title}
                     content={item.content}
                     isDone={item.isDone}
-                    i={i}
-                    setDonedata={setDonedata}
-                    doneData={doneData}
+                    deleteHandler={deleteHandler}
+                    toWork={toWork}
+                    toDone={toDone}
                   ></CardComponent>
                 );
               })}
