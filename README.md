@@ -1,97 +1,18 @@
-<Card 컴포넌트 분리>
-import React from "react";
-import { Button, Card, Col } from "react-bootstrap";
+#Card 컴포넌트 분리
+#CardComponent.jsx
 
-function CardComponent({
-id,
-title,
-content,
-isDone,
-i,
-setDonedata,
-doneData,
-}) {
-const deleteHandler = (id) => {
-const deleteItem = doneData.filter((a) => {
-return a.id !== id;
-});
-setDonedata(deleteItem);
-};
-return (
+-경로
+src/component/CardComponent.jsx
 
-<Col>
-<Card
-className="d-inline-block"
-border="info"
-style={{ width: "18rem", display: "inline-block !important" }} >
-<Card.Header>{title}</Card.Header>
-<Card.Body>
-<Card.Title>{content}</Card.Title>
-<div className="buttonStyle}">
-<Button
-variant="secondary"
-size="sm"
-onClick={() => {
-deleteHandler(id);
-}} >
-삭제하기
-</Button>
+-이유
+처음에는 working card와 done card를 완전 분리를 했다가, props전달이 너무 많아지고, 겹치는 부분이 많아 합쳤습니다.
+'완료','취소'버튼 부분만 다른데, 이 부분은 if조건문으로 다르게 렌더링해주었습니다.
 
-            {isDone === true ? (
-              <Button
-                variant="info"
-                size="sm"
-                onClick={() => {
-                  let changeDone = [...doneData];
-                  changeDone[i].isDone = false;
-                  setDonedata(changeDone);
-                }}
-              >
-                취소
-              </Button>
-            ) : (
-              <Button
-                variant="info"
-                size="sm"
-                onClick={() => {
-                  let changeDone = [...doneData];
-                  changeDone[i].isDone = true;
-                  setDonedata(changeDone);
-                }}
-              >
-                완료
-              </Button>
-            )}
-          </div>
-        </Card.Body>
-      </Card>
-    </Col>
+#헤더 컴포넌트 분리
+$Header
 
-);
-}
+-경로
+src/component/Header.jsx
 
-export default CardComponent;
-
-[헤더 컴포넌트 분리]
-import { Navbar, Container } from "react-bootstrap";
-
-function Header() {
-return (
-
-<div>
-<Navbar className="bg-body-tertiary">
-<Container>
-<Navbar.Brand href="#home">My Todo List</Navbar.Brand>
-<Navbar.Toggle />
-<Navbar.Collapse className="justify-content-end">
-<Navbar.Text>
-Used Tool: <a href="https://reactjs-kr.firebaseapp.com">React</a>
-</Navbar.Text>
-</Navbar.Collapse>
-</Container>
-</Navbar>
-</div>
-);
-}
-
-export default Header;
+-이유
+이 프로젝트는 규모가 작지만 규모가 큰 프로젝트에서는 header와 footer를 분리한다고 하여 분리했습니다.

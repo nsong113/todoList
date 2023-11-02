@@ -7,8 +7,7 @@ function CardComponent({
   content,
   isDone,
   deleteHandler,
-  toWork,
-  toDone,
+  changeIdDone,
 }) {
   return (
     <Col>
@@ -30,13 +29,12 @@ function CardComponent({
             >
               삭제하기
             </Button>
-            {id}
             {isDone === true ? (
-              <Button variant="info" size="sm" onClick={() => toWork(id)}>
+              <Button variant="info" size="sm" onClick={() => changeIdDone(id)}>
                 취소
               </Button>
             ) : (
-              <Button variant="info" size="sm" onClick={() => toDone(id)}>
+              <Button variant="info" size="sm" onClick={() => changeIdDone(id)}>
                 완료
               </Button>
             )}

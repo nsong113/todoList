@@ -10,14 +10,22 @@ function App() {
   let [doneData, setDonedata] = useState(importedDoneData);
   let [titleContent, setTitleContent] = useState("");
   let [detailContent, setDetailContent] = useState("");
+  // let [working,setWorking]=useState([])
+  // let [done,setDone]=useState([])
+
+  let onChangeTitle = (e) => {
+    setTitleContent(e.target.value);
+  };
+
+  let onChangeContent = (e) => {
+    setDetailContent(e.target.value);
+  };
 
   ////////////////////////////////
-  let workingFilter = doneData.filter((value, i) => {
-    return doneData[i].isDone === false;
-  });
-  let doneFilter = doneData.filter((value, i) => {
-    return doneData[i].isDone === true;
-  });
+  let workingFilter = doneData.filter(
+    (value, i) => doneData[i].isDone === false
+  );
+  let doneFilter = doneData.filter((value, i) => doneData[i].isDone === true);
   ////////////////////////////////
 
   const deleteHandler = (id) => {
@@ -40,24 +48,31 @@ function App() {
       setDetailContent("");
     }
   };
-
   ////////////////////////////////
-  const toWork = (id) => {
-    let fineIndex = doneData.findIndex((item) => {
-      return item.id === id;
+  var changeIdDone = (id) => {
+    const updateData = doneData.map((item) => {
+      if (item.id === id) {
+        return {
+          ...item,
+          isDone: !item.isDone,
+        };
+      }
+      return item;
     });
-    doneData[fineIndex].isDone = false;
-    setDonedata([...doneData]);
+    setDonedata(updateData);
   };
-
-  const toDone = (id) => {
-    let findIndex = doneData.findIndex((item) => {
-      return item.id === id;
-    });
-
-    doneData[findIndex].isDone = true;
-    setDonedata([...doneData]);
-  };
+  ////////////////////////////////
+  // var changeIdDone = (id) => {
+  //   let fineIndex = doneData.findIndex((item) => {
+  //     return item.id === id;
+  //   });
+  //   if (doneData[fineIndex].isDone === true) {
+  //     doneData[fineIndex].isDone = false;
+  //   } else {
+  //     doneData[fineIndex].isDone = true;
+  //   }
+  //   setDonedata([...doneData]);
+  // };
   ////////////////////////////////
 
   return (
@@ -71,9 +86,7 @@ function App() {
               type="text"
               value={titleContent}
               placeholder="계획의 제목을 입력하세요"
-              onChange={(e) => {
-                setTitleContent(e.target.value);
-              }}
+              onChange={onChangeTitle}
             />
           </Form.Group>
           <Form.Group className="mb-3" controlId="exampleForm.ControlTextarea1">
@@ -83,9 +96,7 @@ function App() {
               rows={2}
               value={detailContent}
               placeholder="계획의 내용을 입력하세요"
-              onChange={(e) => {
-                setDetailContent(e.target.value);
-              }}
+              onChange={onChangeContent}
             />
           </Form.Group>
         </div>
@@ -104,44 +115,36 @@ function App() {
           <Container>
             <Row>
               <h4>Working..🔥</h4>
-              {/* {console.log("working" + workingFilter)} */}
 
               {/* done이 false인 것만 필터 */}
-              {workingFilter.map((item, i) => {
-                return (
-                  <CardComponent
-                    key={item.id}
-                    id={item.id}
-                    title={item.title}
-                    content={item.content}
-                    isDone={item.isDone}
-                    deleteHandler={deleteHandler}
-                    toWork={toWork}
-                    toDone={toDone}
-                  ></CardComponent>
-                );
-              })}
+              {workingFilter.map((item, i) => (
+                <CardComponent
+                  key={item.id}
+                  id={item.id}
+                  title={item.title}
+                  content={item.content}
+                  isDone={item.isDone}
+                  deleteHandler={deleteHandler}
+                  changeIdDone={changeIdDone}
+                ></CardComponent>
+              ))}
             </Row>
             <br />
             <br />
             <Row>
               <h4>Done..!🌟</h4>
               {/* done은 done이 true인 것만 필터 */}
-              {/* {console.log("working" + doneFilter)} */}
-              {doneFilter.map((item, i) => {
-                return (
-                  <CardComponent
-                    key={item.id}
-                    id={item.id}
-                    title={item.title}
-                    content={item.content}
-                    isDone={item.isDone}
-                    deleteHandler={deleteHandler}
-                    toWork={toWork}
-                    toDone={toDone}
-                  ></CardComponent>
-                );
-              })}
+              {doneFilter.map((item, i) => (
+                <CardComponent
+                  key={item.id}
+                  id={item.id}
+                  title={item.title}
+                  content={item.content}
+                  isDone={item.isDone}
+                  deleteHandler={deleteHandler}
+                  changeIdDone={changeIdDone}
+                ></CardComponent>
+              ))}
             </Row>
           </Container>
         </div>
