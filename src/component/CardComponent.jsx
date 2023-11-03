@@ -1,5 +1,6 @@
 import React from "react";
 import { Button, Card, Col } from "react-bootstrap";
+import { useDispatch, useSelector } from "react-redux";
 
 function CardComponent({
   id,
@@ -9,6 +10,11 @@ function CardComponent({
   deleteHandler,
   changeIdDone,
 }) {
+  const doneDataRedux = useSelector((state) => {
+    return state.doneData;
+  });
+  console.log(doneDataRedux);
+  const dispatch = useDispatch();
   return (
     <Col>
       <Card
@@ -24,17 +30,32 @@ function CardComponent({
               variant="secondary"
               size="sm"
               onClick={() => {
+                // dispatch(deleteHandlerAC);
                 deleteHandler(id);
               }}
             >
               삭제하기
             </Button>
             {isDone === true ? (
-              <Button variant="info" size="sm" onClick={() => changeIdDone(id)}>
+              <Button
+                variant="info"
+                size="sm"
+                onClick={() =>
+                  // dispatch(changeIdDoneAC)
+                  changeIdDone(id)
+                }
+              >
                 취소
               </Button>
             ) : (
-              <Button variant="info" size="sm" onClick={() => changeIdDone(id)}>
+              <Button
+                variant="info"
+                size="sm"
+                onClick={() =>
+                  // dispatch(changeIdDoneAC)
+                  changeIdDone(id)
+                }
+              >
                 완료
               </Button>
             )}

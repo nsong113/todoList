@@ -2,91 +2,97 @@ import React, { useState } from "react";
 import "./App.css";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { Container, Form, Row } from "react-bootstrap";
-import importedDoneData from "./component/data";
+
 import Header from "./component/Header";
 import CardComponent from "./component/CardComponent";
+import {
+  STTodoPageContainer,
+  STFormFlex,
+  STInputTodoBoxStyle,
+  STButtonContainer,
+  STButtonTextDiv,
+  STCatButtonDiv,
+} from "./component/style";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  onClickAddBtnAC,
+  deleteHandlerAC,
+  changeIdDoneAC,
+} from "./redux/modules/doneData";
+
+import { addTitleContentAC } from "./redux/modules/titleContent";
+import { addDetailContentAC } from "./redux/modules/detailContent";
 
 function App() {
-  let [doneData, setDonedata] = useState(importedDoneData);
-  let [titleContent, setTitleContent] = useState("");
-  let [detailContent, setDetailContent] = useState("");
-  // let [working,setWorking]=useState([])
-  // let [done,setDone]=useState([])
+  //store에 접근해서 redux 받아오기
+  let doneDataRedux = useSelector((state) => {
+    return state.doneData;
+  });
 
-  let onChangeTitle = (e) => {
-    setTitleContent(e.target.value);
-  };
+  let titleContentRedux = useSelector((state) => {
+    return state.titleContent;
+  });
 
-  let onChangeContent = (e) => {
-    setDetailContent(e.target.value);
-  };
+  let detailContentRedux = useSelector((state) => {
+    return state.detailContent;
+  });
 
-  ////////////////////////////////
-  let workingFilter = doneData.filter(
-    (value, i) => doneData[i].isDone === false
-  );
-  let doneFilter = doneData.filter((value, i) => doneData[i].isDone === true);
-  ////////////////////////////////
+  //dispatch 선언
+  let dispatch = useDispatch();
 
-  const deleteHandler = (id) => {
-    const deleteItem = doneData.filter((a) => {
-      return a.id !== id;
-    });
-    setDonedata(deleteItem);
-  };
-
+  //클릭하면 working에 추가 + 유효성검사
   const onClickAddBtn = () => {
-    if (titleContent && detailContent) {
+    if (titleContentRedux && detailContentRedux) {
       let newContent = {
-        id: doneData.length + 1,
-        title: titleContent,
-        content: detailContent,
+        id: doneDataRedux.toDoArr.length + 1,
+        title: titleContentRedux.title,
+        content: detailContentRedux.content,
         isDone: false,
       };
-      setDonedata([...doneData, newContent]);
-      setTitleContent("");
-      setDetailContent("");
+      dispatch(onClickAddBtnAC(newContent));
+
+      titleContentRedux.title = "";
+      detailContentRedux.content = "";
     }
   };
-  ////////////////////////////////
-  var changeIdDone = (id) => {
-    const updateData = doneData.map((item) => {
-      if (item.id === id) {
-        return {
-          ...item,
-          isDone: !item.isDone,
-        };
-      }
-      return item;
-    });
-    setDonedata(updateData);
+
+  //onChange Handler
+  let onChange = (e) => {
+    if (e.target.name === "title") {
+      dispatch(addTitleContentAC(e.target.value));
+    } else if (e.target.name === "content") {
+      dispatch(addDetailContentAC(e.target.value));
+    }
   };
-  ////////////////////////////////
-  // var changeIdDone = (id) => {
-  //   let fineIndex = doneData.findIndex((item) => {
-  //     return item.id === id;
-  //   });
-  //   if (doneData[fineIndex].isDone === true) {
-  //     doneData[fineIndex].isDone = false;
-  //   } else {
-  //     doneData[fineIndex].isDone = true;
-  //   }
-  //   setDonedata([...doneData]);
-  // };
-  ////////////////////////////////
+
+  //isDone - true, false filter
+  let isDoneFilter = function (isDone) {
+    return doneDataRedux.toDoArr.filter((value, i) => value.isDone === isDone);
+  };
+
+  //삭제 버튼
+  const deleteHandler = (id) => {
+    dispatch(deleteHandlerAC(id));
+  };
+
+  //완료 & 취소 버튼
+  var changeIdDone = (id) => {
+    dispatch(changeIdDoneAC(id));
+  };
 
   return (
-    <div className="todoPageContainer ">
+    <STTodoPageContainer>
       <Header></Header>
-      <form className="formFlex">
-        <div className="inputTodoBoxStyle">
+      <STFormFlex>
+        <STInputTodoBoxStyle>
           <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
             <Form.Label>제목</Form.Label>
             <Form.Control
               type="text"
-              value={titleContent}
+              value={titleContentRedux.title}
               placeholder="계획의 제목을 입력하세요"
-              onChange={onChangeTitle}
+              onChange={onChange}
+              name="title"
             />
           </Form.Group>
           <Form.Group className="mb-3" controlId="exampleForm.ControlTextarea1">
@@ -94,30 +100,35 @@ function App() {
             <Form.Control
               as="textarea"
               rows={2}
-              value={detailContent}
+              value={detailContentRedux.content}
               placeholder="계획의 내용을 입력하세요"
-              onChange={onChangeContent}
+              onChange={onChange}
+              name="content"
             />
           </Form.Group>
-        </div>
+        </STInputTodoBoxStyle>
 
         {/* input Button */}
-        <div className="buttonContainer" onClick={onClickAddBtn}>
-          <div className="buttonTextDiv">계획 추가하기</div>
-          <div className="catButtonDiv"></div>
-        </div>
-      </form>
+        <STButtonContainer
+          onClick={() => {
+            onClickAddBtn();
+          }}
+        >
+          <STButtonTextDiv>계획 추가하기</STButtonTextDiv>
+          <STCatButtonDiv></STCatButtonDiv>
+        </STButtonContainer>
+      </STFormFlex>
 
       {/* working & Done*/}
       {/* card: component */}
-      <div className="cardContainer">
+      <div>
         <div>
           <Container>
             <Row>
               <h4>Working..🔥</h4>
 
               {/* done이 false인 것만 필터 */}
-              {workingFilter.map((item, i) => (
+              {isDoneFilter(false).map((item, i) => (
                 <CardComponent
                   key={item.id}
                   id={item.id}
@@ -134,7 +145,7 @@ function App() {
             <Row>
               <h4>Done..!🌟</h4>
               {/* done은 done이 true인 것만 필터 */}
-              {doneFilter.map((item, i) => (
+              {isDoneFilter(true).map((item, i) => (
                 <CardComponent
                   key={item.id}
                   id={item.id}
@@ -149,7 +160,7 @@ function App() {
           </Container>
         </div>
       </div>
-    </div>
+    </STTodoPageContainer>
   );
 }
 
