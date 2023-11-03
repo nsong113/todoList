@@ -1,5 +1,5 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom";
-import Modal from "../component/Modal";
+import Modal from "../pages/Modal";
 import App from "../App";
 
 const Router = () => {

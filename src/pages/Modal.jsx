@@ -1,5 +1,5 @@
 import React from "react";
-import { STmodalBox, STmodalFlexBox, STmodalContent } from "./style";
+import { STmodalBox, STmodalFlexBox, STmodalContent } from "../component/style";
 import { useNavigate, useParams } from "react-router-dom";
 import { useSelector } from "react-redux";
 
