@@ -5,12 +5,15 @@ import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 import { Provider } from "react-redux";
 import store from "./redux/config/configStore";
+import Router from "./shared/Router";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   //앱 전체에서 스토어를 사용하기 위한 코드
   <Provider store={store}>
-    <App />
+    <Router>
+      <App />
+    </Router>
   </Provider>
 );
 

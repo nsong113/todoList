@@ -1,8 +1,7 @@
-import React, { useState } from "react";
+import React from "react";
 import "./App.css";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { Container, Form, Row } from "react-bootstrap";
-
 import Header from "./component/Header";
 import CardComponent from "./component/CardComponent";
 import {
@@ -19,7 +18,6 @@ import {
   deleteHandlerAC,
   changeIdDoneAC,
 } from "./redux/modules/doneData";
-
 import { addTitleContentAC } from "./redux/modules/titleContent";
 import { addDetailContentAC } from "./redux/modules/detailContent";
 

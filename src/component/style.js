@@ -55,3 +55,23 @@ export const STCatButtonDiv = styled.div`
   left: 50%;
   transform: translate(-50%, -70%);
 `;
+
+export const STmodalBox = styled.div`
+  width: 30%;
+  height: 300px;
+  margin: 0 auto;
+  border: 1px solid black;
+  padding: 20px;
+  border-radius: 30px;
+`;
+
+export const STmodalFlexBox = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid #ddd;
+`;
+
+export const STmodalContent = styled.div`
+  margin-top: 10px;
+`;
