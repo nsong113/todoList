@@ -25,4 +25,4 @@ src/component/Header.jsx
 
 ## 배포 링크
 
-<https://todo-list-jiu-songs-projects.vercel.app>
+<https://todo-list-ver2.vercel.app>
