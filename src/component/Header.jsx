@@ -1,4 +1,5 @@
 import { Navbar, Container } from "react-bootstrap";
+import React from "react";
 
 function Header() {
   return (
@@ -18,4 +19,4 @@ function Header() {
   );
 }
 
-export default Header;
+export default React.memo(Header);

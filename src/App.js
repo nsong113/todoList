@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useCallback } from "react";
 import "./App.css";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { Container, Form, Row } from "react-bootstrap";
@@ -23,17 +23,9 @@ import { addDetailContentAC } from "./redux/modules/detailContent";
 
 function App() {
   //store에 접근해서 redux 받아오기
-  let doneDataRedux = useSelector((state) => {
-    return state.doneData;
-  });
-
-  let titleContentRedux = useSelector((state) => {
-    return state.titleContent;
-  });
-
-  let detailContentRedux = useSelector((state) => {
-    return state.detailContent;
-  });
+  let doneDataRedux = useSelector((state) => state.doneData);
+  let titleContentRedux = useSelector((state) => state.titleContent);
+  let detailContentRedux = useSelector((state) => state.detailContent);
 
   //dispatch 선언
   let dispatch = useDispatch();
@@ -68,15 +60,15 @@ function App() {
     return doneDataRedux.toDoArr.filter((value, i) => value.isDone === isDone);
   };
 
-  //삭제 버튼
-  const deleteHandler = (id) => {
+  //삭제 버튼 - useCallback 사용
+  const deleteHandler = useCallback((id) => {
     dispatch(deleteHandlerAC(id));
-  };
+  }, []);
 
-  //완료 & 취소 버튼
-  var changeIdDone = (id) => {
+  //완료 & 취소 버튼  - useCallback 사용
+  var changeIdDone = useCallback((id) => {
     dispatch(changeIdDoneAC(id));
-  };
+  }, []);
 
   return (
     <STTodoPageContainer>
